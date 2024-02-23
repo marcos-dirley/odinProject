@@ -29,7 +29,8 @@ function createSquare(size) {
 }
 
 function addTrailEffectOnHover(el, numberOfSquares) {
-    el.style.opacity = 0;
+    let baseOpacity = 0;
+    el.style.opacity = baseOpacity;
 
     el.addEventListener("mouseover", function() {
         const red = Math.floor(Math.random() *  256);
@@ -41,21 +42,23 @@ function addTrailEffectOnHover(el, numberOfSquares) {
     })
 
     el.addEventListener("mouseout", function() {
-        el.style.opacity = 0;
-        el.style.transition = "opacity .5s";
+        if (baseOpacity < 1) baseOpacity += 0.1;
+        el.style.opacity = baseOpacity;
+        el.style.backgroundColor = "#111";
+        el.style.transition = "all .5s";
     }) 
 }
 
 createSquare(16);
 
 button.addEventListener("click", function() {
-    let input = prompt("Insert the desired number of squares per side");
+    let input = parseInt(prompt("Insert the desired number of squares per side"));
 
-    while (input === "" || isNaN(Number(input)) || input > 50) {
-        input = prompt("Invalid input: must be a number less than or equals to 50");
+    while (input < 1 || isNaN(Number(input)) || input > 50) {
+        input = prompt("Invalid input: must be a number between 1 and 50");
     }
 
     if (input === null) return;
 
-    createSquare(+input);
+    createSquare(input);
 })
