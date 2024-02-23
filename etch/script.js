@@ -1,31 +1,40 @@
-const gridDiv = document.getElementById("grid");
-const containerDiv = document.getElementsByTagName("container")[0];
+const containerDiv = document.getElementById("container");
 const button = document.getElementsByTagName("button")[0];
 
-for (let i = 0; i < 16; i++) {
-    let rowDiv = document.createElement("div");
-    rowDiv.className = "row-div";
-    rowDiv.style.display = "flex";
-    rowDiv.style.flex = "1";
+function createSquare(size) {
+    let gridDiv = document.getElementById("grid");
+    if (gridDiv) containerDiv.removeChild(gridDiv);
 
-    for (let j = 0; j < 16; j++) {
-        let columnDiv = document.createElement("div");
-        columnDiv.className = "column-div";
-        columnDiv.style.flex = "1";
-        addTrailEffectOnHover(columnDiv);
-        rowDiv.appendChild(columnDiv);
+    let newGrid = document.createElement("div");
+    newGrid.id = "grid";
+
+    for (let i = 0; i < size; i++) {
+        let rowDiv = document.createElement("div");
+        rowDiv.className = "row-div";
+        rowDiv.style.display = "flex";
+        rowDiv.style.flex = "1";
+
+        for (let j = 0; j < size; j++) {
+            let columnDiv = document.createElement("div");
+            columnDiv.className = "column-div";
+            columnDiv.style.flex = "1";
+
+            numberOfSquares = size;
+            addTrailEffectOnHover(columnDiv, numberOfSquares);
+            rowDiv.appendChild(columnDiv);
+        }
+        newGrid.appendChild(rowDiv);
     }
-
-    gridDiv.appendChild(rowDiv);
+    containerDiv.appendChild(newGrid);
 }
 
-function addTrailEffectOnHover(el) {
+function addTrailEffectOnHover(el, numberOfSquares) {
     el.style.backgroundColor = "#de0";
     el.style.opacity = 0;
 
     el.addEventListener("mouseover", function() {
         el.style.opacity = 1;
-        el.style.transition = ".02s"
+        el.style.transition = (numberOfSquares > 32) ? "0s" : "0.02s";
     })
 
     el.addEventListener("mouseout", function() {
@@ -33,6 +42,8 @@ function addTrailEffectOnHover(el) {
         el.style.transition = "opacity .5s";
     }) 
 }
+
+createSquare(16);
 
 button.addEventListener("click", function() {
     let input = prompt("Insert the desired number of squares per side");
@@ -43,5 +54,5 @@ button.addEventListener("click", function() {
 
     if (input === null) return;
 
-    createSquare(input);
+    createSquare(+input);
 })
