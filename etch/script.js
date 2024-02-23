@@ -29,10 +29,13 @@ function createSquare(size) {
 }
 
 function addTrailEffectOnHover(el, numberOfSquares) {
-    el.style.backgroundColor = "#de0";
     el.style.opacity = 0;
 
     el.addEventListener("mouseover", function() {
+        const red = Math.floor(Math.random() *  256);
+        const green = Math.floor(Math.random() *  256);
+        const blue = Math.floor(Math.random() *  256);
+        el.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
         el.style.opacity = 1;
         el.style.transition = (numberOfSquares > 32) ? "0s" : "0.02s";
     })
