@@ -8,10 +8,21 @@ body {
     box-sizing: border-box;
 }
 
-#container {
+#grid {
     width: 500px;
     height: 500px;
     border: 3px solid pink;
     display: flex;
     flex-direction: column;
+}
+
+#button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 4px;
+    padding-right: 3px;
+
+    button {
+        padding: 3px 12px;
+    }
 }

@@ -1,5 +1,6 @@
-const containerDiv = document.getElementById("container");
-const body = document.getElementsByTagName("body")[0];
+const gridDiv = document.getElementById("grid");
+const containerDiv = document.getElementsByTagName("container")[0];
+const button = document.getElementsByTagName("button")[0];
 
 for (let i = 0; i < 16; i++) {
     let rowDiv = document.createElement("div");
@@ -15,7 +16,7 @@ for (let i = 0; i < 16; i++) {
         rowDiv.appendChild(columnDiv);
     }
 
-    containerDiv.appendChild(rowDiv);
+    gridDiv.appendChild(rowDiv);
 }
 
 function addTrailEffectOnHover(el) {
@@ -32,3 +33,15 @@ function addTrailEffectOnHover(el) {
         el.style.transition = "opacity .5s";
     }) 
 }
+
+button.addEventListener("click", function() {
+    let input = prompt("Insert the desired number of squares per side");
+
+    while (input === "" || isNaN(Number(input)) || input > 50) {
+        input = prompt("Invalid input: must be a number less than or equals to 50");
+    }
+
+    if (input === null) return;
+
+    createSquare(input);
+})
