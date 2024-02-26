@@ -15,7 +15,7 @@ const operators = {
 };
 
 function add(a, b) {
-    return +(a + b);
+    return Number(a) + Number(b);
 }
 function subtract(a, b) {
     return a - b;
@@ -85,11 +85,19 @@ function myEval() {
             continue
         }
 
-        let currentResult = operators[currentOp](numbers[i], numbers[i + 1]);
-        numbers[i] = currentResult;
+        let partialResult = operators[currentOp](numbers[i], numbers[i + 1]);
+        numbers[i] = partialResult;
 
         numbers.splice(i + 1, 1);
         expressionOperators.splice(i, 1);
+    }
+
+    while (expressionOperators.length > 0) {
+        let currentOp = expressionOperators.at(0);
+        let partialResult = operators[currentOp](numbers.at(0), numbers.at(1));
+
+        numbers.splice(0, 2, partialResult);
+        expressionOperators.shift();
     }
 
     console.log(numbers);
