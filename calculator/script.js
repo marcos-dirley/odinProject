@@ -85,7 +85,7 @@ function myEval() {
             continue
         }
 
-        let partialResult = operators[currentOp](numbers[i], numbers[i + 1]);
+        let partialResult = operators[currentOp](+numbers[i], +numbers[i + 1]);
         numbers[i] = partialResult;
 
         numbers.splice(i + 1, 1);
@@ -94,7 +94,7 @@ function myEval() {
 
     while (expressionOperators.length > 0) {
         let currentOp = expressionOperators.at(0);
-        let partialResult = operators[currentOp](numbers.at(0), numbers.at(1));
+        let partialResult = operators[currentOp](+numbers.at(0), +numbers.at(1));
 
         numbers.splice(0, 2, partialResult);
         expressionOperators.shift();
