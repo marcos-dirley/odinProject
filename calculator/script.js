@@ -73,8 +73,18 @@ let result = 0;
 function myEval() {
     if (expression.at(-1) in operators || expression === '') return;
 
-    result = evaluate(expression);
-    resultDisplay.textContent = result;
+    const anyOperators = new RegExp("[-]|[+]|[/]|[*]");
+    let numbers = expression.split(anyOperators);
+    let expressionOperators = [...expression].filter( e => '+-/*'.includes(e));
+
+
+
+    console.log(numbers);
+    console.log(expressionOperators);
+
+    // result = evaluate(expression);
+    // result = Math.floor(result * 1e5) / 1e5
+    // resultDisplay.textContent = result;
 }
 
 function deleteLastCharacter() {
