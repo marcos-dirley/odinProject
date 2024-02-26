@@ -52,13 +52,13 @@ function addTrailEffectOnHover(el, numberOfSquares) {
 createSquare(16);
 
 button.addEventListener("click", function() {
-    let input = parseInt(prompt("Insert the desired number of squares per side"));
+    let input = prompt("Insert the desired number of squares per side (default is 16x16)");
 
-    while (input < 1 || isNaN(Number(input)) || input > 50) {
+    while (input !== null && (+input < 1 || isNaN(+input) || +input > 50)) {
         input = prompt("Invalid input: must be a number between 1 and 50");
     }
 
     if (input === null) return;
 
-    createSquare(input);
+    createSquare(+input);
 })
