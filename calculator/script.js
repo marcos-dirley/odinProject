@@ -77,7 +77,20 @@ function myEval() {
     let numbers = expression.split(anyOperators);
     let expressionOperators = [...expression].filter( e => '+-/*'.includes(e));
 
+    for (let i = 0; i < expressionOperators.length;) {
+        let currentOp = expressionOperators[i];
 
+        if (currentOp !== '*' && currentOp !== '/') {
+            i++;
+            continue
+        }
+
+        let currentResult = operators[currentOp](numbers[i], numbers[i + 1]);
+        numbers[i] = currentResult;
+
+        numbers.splice(i + 1, 1);
+        expressionOperators.splice(i, 1);
+    }
 
     console.log(numbers);
     console.log(expressionOperators);
