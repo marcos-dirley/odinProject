@@ -100,12 +100,9 @@ function myEval() {
         expressionOperators.shift();
     }
 
-    console.log(numbers);
-    console.log(expressionOperators);
-
-    // result = evaluate(expression);
-    // result = Math.floor(result * 1e5) / 1e5
-    // resultDisplay.textContent = result;
+    const result = numbers.at(0);
+    result = Math.floor(result * 1e5) / 1e5;
+    resultDisplay.textContent = result;
 }
 
 function deleteLastCharacter() {
