@@ -36,8 +36,20 @@ function isOperationValid(content) {
     if (content in operators) {
         if (expression.at(-1) in operators || expression === '') return false;
     }
-    if (content === '.' && expression.includes('.')) return false;
+    if (content === '.') return checkDotValidity();
 
+    return true;
+}
+
+function checkDotValidity() {
+    let lastOperatorIndex = -1;
+    for (let i = 0; i < expression.length; i++) {
+        if ('+*-/'.includes(expression.at(i))) lastOperatorIndex = i;
+    }
+
+    const expressionSubstring = expression.slice(lastOperatorIndex + 1); 
+
+    if (expressionSubstring.includes('.')) return false;
     return true;
 }
 
@@ -63,10 +75,6 @@ function addSpecialButtonFunctionality() {
 
     const clear = document.getElementById("clear");
     clear.addEventListener("click", clearExpression);
-}
-
-function evaluate(expr) {
-    return eval(expr);
 }
 
 let result = 0;
@@ -100,7 +108,7 @@ function myEval() {
         expressionOperators.shift();
     }
 
-    const result = numbers.at(0);
+    let result = numbers.at(0);
     result = Math.floor(result * 1e5) / 1e5;
     resultDisplay.textContent = result;
 }
