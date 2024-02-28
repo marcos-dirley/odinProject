@@ -4,6 +4,7 @@ const del = document.getElementById("delete");
 const expressionDisplay = document.getElementById("expression");
 let expression = "";
 const resultDisplay = document.getElementById("result");
+const validInsertionKeys = '0123456789+-*/.';
 
 const operators = {
     "+": add,
@@ -31,11 +32,13 @@ function operate(a, b, op) {
     return operators[op](a, b);
 }
 
-function isOperationValid(content) {
-    if (content === "=") return false;
+function isInsertionValid(content) {
+    if (!validInsertionKeys.includes(content)) return false;
+
     if (content in operators) {
         if (expression.at(-1) in operators || expression === '') return false;
     }
+
     if (content === '.') return checkDotValidity();
 
     return true;
@@ -53,22 +56,24 @@ function checkDotValidity() {
     return true;
 }
 
+function insertCharOnDisplay(content) {
+    if (!isInsertionValid(content)) return;
+
+    expression += content;
+    expressionDisplay.textContent = expression;
+}
+
 function addCalcRowFunctionality() {
     for (let i = 0; i < calcRowBtns.length; i++) {
-        calcRowBtns.item(i).addEventListener("click", (e) => {
-            const btnContent = e.target.textContent;
-
-            if (!isOperationValid(btnContent)) return;
-
-            expression += btnContent;
-            expressionDisplay.textContent = expression;
-        });
+        calcRowBtns.item(i).addEventListener("click", e => {
+            insertCharOnDisplay(e.target.textContent);
+        })
     }
 }
 
 function addSpecialButtonFunctionality() {
     const equalsBtn = document.getElementById("=");
-    equalsBtn.addEventListener("click", myEval);
+    equalsBtn.addEventListener("click", evaluate);
 
     const delBtn = document.getElementById("delete");
     delBtn.addEventListener("click", deleteLastCharacter);
@@ -78,7 +83,7 @@ function addSpecialButtonFunctionality() {
 }
 
 let result = 0;
-function myEval() {
+function evaluate() {
     if (expression.at(-1) in operators || expression === '') return;
 
     const anyOperators = new RegExp("[-]|[+]|[/]|[*]");
@@ -108,7 +113,7 @@ function myEval() {
         expressionOperators.shift();
     }
 
-    let result = numbers.at(0);
+    result = numbers.at(0);
     result = Math.floor(result * 1e5) / 1e5;
     resultDisplay.textContent = result;
 }
@@ -123,5 +128,19 @@ function clearExpression() {
     expressionDisplay.textContent = expression;
 }
 
+function addKeyboardFunctionality() {
+    const body = document.body;
+    body.addEventListener("keydown", e => {
+        if (validInsertionKeys.includes(e.key)) insertCharOnDisplay(e.key);
+        else if (e.key === 'Enter') evaluate();
+        
+        if (e.key !== 'Backspace') return;
+
+        if (e.ctrlKey) clearExpression();
+        else deleteLastCharacter();
+    })
+}
+
+addKeyboardFunctionality();
 addCalcRowFunctionality();
 addSpecialButtonFunctionality();
